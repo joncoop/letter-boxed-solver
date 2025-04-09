@@ -4,16 +4,16 @@ import os
 
 def load_word_list(path):
     """
-    Loads a list of words from a file, converting each to lowercase.
+    Loads a list of words from a file, converting each to uppercase.
     
     Args:
         path (str): The file path to the dictionary.
 
     Returns:
-        list: A list of words in lowercase.
+        list: A list of words in uppercase.
     """
     with open(path) as f:
-        words = [word.lower() for word in f.read().splitlines()]
+        words = [word.upper() for word in f.read().splitlines()]
 
     return words
 
@@ -69,7 +69,7 @@ def filter_word_list(words, puzzle_letters):
         list: A list of words that meet the puzzle constraints.
     """
     filtered_words = [
-        word.lower() for word in words
+        word.upper() for word in words
         if only_contains_puzzle_letters(word, puzzle_letters)
         and no_consecutive_letters_on_same_side(word, puzzle_letters)
         and word.isalpha()
@@ -114,21 +114,6 @@ def words_connect(word1, word2):
     return word1[-1] == word2[0]
 
 
-def show_solutions(solutions):
-    """
-    Display the solutions found.
-    
-    Args:
-        solutions (list): A list of word pairs.
-    """
-    if not solutions:
-        print("No solutions found.")
-    else:
-        print(f"Found {len(solutions)} possible solution(s):")
-        for word1, word2 in solutions:
-            print(word1, word2)
-
-
 def data_is_valid(dictionary, puzzle_letters):
     """
     Validate the dictionary and puzzle letter constraints.
@@ -155,6 +140,23 @@ def data_is_valid(dictionary, puzzle_letters):
     return valid
 
 
+def show_solutions(solutions, puzzle_letters):
+    """
+    Display the solutions found.
+    
+    Args:
+        solutions (list): A list of word pairs.
+    """
+    print(f"Today's letters: {puzzle_letters.upper()}\n")
+    
+    if not solutions:
+        print("No solutions found.")
+    else:
+        print(f"Found {len(solutions)} possible two-word solution(s):")
+        for word1, word2 in solutions:
+            print(f" - {word1}, {word2}")
+
+
 def solve(dictionary, puzzle_letters):
     """
     Solve the Letter Boxes puzzle using the provided dictionary and puzzle letters.
@@ -170,9 +172,9 @@ def solve(dictionary, puzzle_letters):
         return []
     
     all_words = load_word_list(dictionary)
+    puzzle_letters = puzzle_letters.upper()
     usable_words = filter_word_list(all_words, puzzle_letters)
-    puzzle_letters = puzzle_letters.lower()
-
+    
     solutions = []
     
     for word1 in usable_words:
@@ -194,7 +196,7 @@ def main():
     PUZZLE_LETTERS = 'xlbocuimqayt'
 
     solutions = solve(DICTIONARY, PUZZLE_LETTERS)
-    show_solutions(solutions)
+    show_solutions(solutions, PUZZLE_LETTERS)
 
 
 # Go!
