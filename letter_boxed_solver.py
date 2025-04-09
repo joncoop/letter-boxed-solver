@@ -1,5 +1,11 @@
 # Solver for Letter Boxes on NYT Games
+import argparse
 import os
+
+
+# Define constants for puzzle letters and dictionary
+DEFAULT_PUZZLE_LETTERS = 'xlbocuimqayt'
+DEFAULT_DICTIONARY = 'dictionary.txt'
 
 
 def load_word_list(path):
@@ -114,13 +120,13 @@ def words_connect(word1, word2):
     return word1[-1] == word2[0]
 
 
-def data_is_valid(dictionary, puzzle_letters):
+def data_is_valid(puzzle_letters, dictionary):
     """
     Validate the dictionary and puzzle letter constraints.
     
     Args:
-        dictionary (str): The dictionary file path.
         puzzle_letters (str): The puzzle letters.
+        dictionary (str): The dictionary file path.
 
     Returns:
         bool: True if the data is valid, False otherwise.
@@ -136,11 +142,14 @@ def data_is_valid(dictionary, puzzle_letters):
     elif len(puzzle_letters) != len(set(puzzle_letters)):
         print("All puzzle letters must be unique.")
         valid = False
+    elif not puzzle_letters.isalpha():
+        print("Puzzle letters should only contain alphabetic characters.")
+        valid = False
 
     return valid
 
 
-def show_solutions(solutions, puzzle_letters):
+def show_solutions(puzzle_letters, solutions):
     """
     Display the solutions found.
     
@@ -157,22 +166,22 @@ def show_solutions(solutions, puzzle_letters):
             print(f" - {word1}, {word2}")
 
 
-def solve(dictionary, puzzle_letters):
+def solve(puzzle_letters=DEFAULT_PUZZLE_LETTERS, dictionary=DEFAULT_DICTIONARY):
     """
     Solve the Letter Boxes puzzle using the provided dictionary and puzzle letters.
     
     Args:
-        dictionary (str): The dictionary file path.
         puzzle_letters (str): The puzzle letters.
+        dictionary (str): The dictionary file path.
 
     Returns:
         list: A list of word pairs that meet the puzzle constraints.
     """
-    if not data_is_valid(dictionary, puzzle_letters):
+    if not data_is_valid(puzzle_letters, dictionary):
         return []
     
-    all_words = load_word_list(dictionary)
     puzzle_letters = puzzle_letters.upper()
+    all_words = load_word_list(dictionary)
     usable_words = filter_word_list(all_words, puzzle_letters)
     
     solutions = []
@@ -189,14 +198,26 @@ def solve(dictionary, puzzle_letters):
 
 
 def main():
-    """
-    Main function to run the solver.
-    """
-    DICTIONARY = 'dictionary.txt'
-    PUZZLE_LETTERS = 'xlbocuimqayt'
+    parser = argparse.ArgumentParser(description="Solve the NYT Letter Boxed puzzle.")
+    
+    # Define optional arguments for command-line use
+    parser.add_argument(
+        '-p', '--puzzle_letters', type=str, default=DEFAULT_PUZZLE_LETTERS,
+        help="The 12 puzzle letters ordered such that each set of three consecutive letters represents a side"
+    )
+    parser.add_argument(
+        '-d', '--dictionary', type=str, default=DEFAULT_DICTIONARY,
+        help="The dictionary file to use (default: 'dictionary.txt')"
+    )
 
-    solutions = solve(DICTIONARY, PUZZLE_LETTERS)
-    show_solutions(solutions, PUZZLE_LETTERS)
+    # Parse command-line arguments
+    args = parser.parse_args()
+    puzzle_letters = args.puzzle_letters
+    dictionary = args.dictionary
+
+    # Solve and show the solutions
+    solutions = solve(puzzle_letters, dictionary)
+    show_solutions(puzzle_letters, solutions)
 
 
 # Go!

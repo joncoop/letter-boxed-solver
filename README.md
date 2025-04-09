@@ -1,7 +1,5 @@
-
 # NYT Letter Boxed Solver
-
-Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed) game has a two-word solution. This is a Python solver for the game. It reads a list of dictionary words and finds all possible two-word solutions from the dictionary. The included dictionary file contains many obscure words, so you may have to test several possible solutions before finding one that the game will accept.
+Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed) game has a two-word solution. This is a Python solver for the game. It reads a list of dictionary words and finds all possible two-word solutions from the dictionary. The included dictionary file contains many obscure words, so you may have to test several possible solutions before you find one that the game will accept.
 
 ## Requirements
 
@@ -9,25 +7,50 @@ Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed
 
 ## Usage
 
-1. **Edit the solver code.**
+1. **Edit the solver code** (Optional).
 
-    Open `letterbox_solver.py` and edit the `PUZZLE_LETTERS` constant in the `main()` function. The letters should be ordered so that each set of three consecutive letters represents a side. They can be in uppercase or lowercase.
+    Open `letterbox_solver.py` and edit the `DEFAULT_PUZZLE_LETTERS` constant at the top of the program. The puzzle letters should be ordered so that each set of three consecutive letters represents a side. They can be upper or lowercase.
 
     ```python
-    PUZZLE_LETTERS = 'xlbocuimqayt'  # replace with today's letters
+    DEFAULT_PUZZLE_LETTERS = 'xlbocuimqayt'  # replace with today's letters
     ```
 
-2. **Run the solver.**
+2. **Run the solver**:
 
-    After editing the letters, simply run the solver.
+    You can run the solver in two ways:
 
-## Customization
+    - **From your IDE**: Simply open `python letter_boxed_solver.py` in your Python IDE and run the script.
 
-- Change the dictionary file name or location by editing the `DICTIONARY` constant in the `main()` function. The dictionary needs to be a plaintext file with one word per line. The case of the words in the dictionary does not matter. Words with invalid characters are automatically filtered out by the solver, so there is no need to edit the dictionary unless you want to remove obscure words.
-- You can also use `solve(dictionary, puzzle_letters)` directly in your own scripts to integrate this logic elsewhere.
+    - **From the terminal**:
+      - To run the solver with the default dictionary and puzzle letters, execute:
+
+      ```bash
+      python letter_boxed_solver.py
+      ```
+
+      - To specify a puzzle letters or a custom dictionary file, use either or both of the optional command-line arguments `-p` for the puzzle letters and `-d` for the dictionary file:
+
+      ```bash
+      python letter_boxed_solver.py -p 'abcdeghijklm' -d custom_dictionary.txt 
+      ```
+
+      In this example:
+      - `-p 'abcdeghijklm'` specifies the 12 puzzle letters.
+      - `-d custom_dictionary.txt` specifies a custom dictionary file.
+
+      If no command-line arguments are provided, the script will use the default values:
+
+    - **From an import**:
+      - Import letter_boxed_solver and call the solve function with the dictionary and puzzle letters of your choice.
+
+      ```bash
+      import letter_boxed_solver
+      
+      solutions = letter_boxed_solver.solve('abcdeghijklm') # will use default dictionary
+      solutions = letter_boxed_solver.solve('abcdeghijklm', 'custom_dictionary.txt')
+      ```
 
 ## Example Output
-
 ```
 Today's letters: XLBOCUIMQAYT
 
@@ -40,3 +63,6 @@ Found 7 possible two-word solution(s):
  - QUIXOTICAL, LOBOTOMY
  - QUIXOTICAL, LOMBOY
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
