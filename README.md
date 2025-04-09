@@ -34,12 +34,6 @@ Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed
       python letter_boxed_solver.py -p 'abcdeghijklm' -d custom_dictionary.txt 
       ```
 
-      In this example:
-      - `-p 'abcdeghijklm'` specifies the 12 puzzle letters.
-      - `-d custom_dictionary.txt` specifies a custom dictionary file.
-
-      If no command-line arguments are provided, the script will use the default values:
-
     - **From an import**:
       - Import letter_boxed_solver and call the solve function with the dictionary and puzzle letters of your choice.
 
