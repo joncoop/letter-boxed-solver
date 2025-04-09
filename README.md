@@ -9,10 +9,11 @@ Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed
 
 1. **Edit the solver code** (Optional).
 
-    Open `letterbox_solver.py` and edit the `DEFAULT_PUZZLE_LETTERS` constant at the top of the program. The puzzle letters should be ordered so that each set of three consecutive letters represents a side. They can be upper or lowercase.
+    Open `letterbox_solver.py` and edit the `DEFAULT_PUZZLE_LETTERS` constant at the top of the program. The puzzle letters should be ordered so that each set of three consecutive letters represents a side. They can be upper or lowercase. Optionally, you can edit the ```DEFAULT_DICTIONARY``` constant. The dictionary should be a plaintext file with one word per line.
 
     ```python
-    DEFAULT_PUZZLE_LETTERS = 'xlbocuimqayt'  # replace with today's letters
+    DEFAULT_PUZZLE_LETTERS = 'xlbocuimqayt'
+    DEFAULT_DICTIONARY = 'dictionary.txt'
     ```
 
 2. **Run the solver**:
