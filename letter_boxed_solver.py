@@ -1,4 +1,17 @@
-# Solver for Letter Boxes on NYT Games
+"""
+NYT Letter Boxed Solver
+=======================
+
+This Python script solves the New York Times Letter Boxed puzzle by finding all possible 
+two-word solutions from a given dictionary.
+
+Dependencies:
+- Python 3.6 or higher
+
+Author: Jon Cooper
+Date: 2025/04/09
+"""
+
 import argparse
 import os
 
