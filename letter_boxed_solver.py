@@ -3,13 +3,32 @@ import os
 
 
 def load_word_list(path):
+    """
+    Loads a list of words from a file, converting each to lowercase.
+    
+    Args:
+        path (str): The file path to the dictionary.
+
+    Returns:
+        list: A list of words in lowercase.
+    """
     with open(path) as f:
         words = [word.lower() for word in f.read().splitlines()]
 
     return words
 
 
-def has_only_puzzle_letters(word, puzzle_letters):
+def only_contains_puzzle_letters(word, puzzle_letters):
+    """
+    Check if the word contains only letters from puzzle_letters.
+    
+    Args:
+        word (str): The word to check.
+        puzzle_letters (str): The valid letters for the puzzle.
+
+    Returns:
+        bool: True if the word only contains valid letters, False otherwise.
+    """
     for character in word:
         if character not in puzzle_letters:
             return False
@@ -17,7 +36,17 @@ def has_only_puzzle_letters(word, puzzle_letters):
     return True
 
 
-def has_no_consecutive_letters_on_same_side(word, puzzle_letters):    
+def no_consecutive_letters_on_same_side(word, puzzle_letters):    
+    """
+    Check if no consecutive letters in the word are on the same side.
+    
+    Args:
+        word (str): The word to check.
+        puzzle_letters (str): The valid letters for the puzzle.
+
+    Returns:
+        bool: True if no consecutive letters are on the same side, False otherwise.
+    """
     for i in range(len(word) - 1):
         side1 = puzzle_letters.find(word[i]) // 3
         side2 = puzzle_letters.find(word[i + 1]) // 3
@@ -29,10 +58,20 @@ def has_no_consecutive_letters_on_same_side(word, puzzle_letters):
 
     
 def filter_word_list(words, puzzle_letters):
+    """
+    Filters a list of words based on game rules.
+    
+    Args:
+        words (list): List of words to filter.
+        puzzle_letters (str): The valid letters for the puzzle.
+
+    Returns:
+        list: A list of words that meet the puzzle constraints.
+    """
     filtered_words = [
         word.lower() for word in words
-        if has_only_puzzle_letters(word, puzzle_letters)
-        and has_no_consecutive_letters_on_same_side(word, puzzle_letters)
+        if only_contains_puzzle_letters(word, puzzle_letters)
+        and no_consecutive_letters_on_same_side(word, puzzle_letters)
         and word.isalpha()
         and len(word) >= 3
     ]
@@ -41,6 +80,17 @@ def filter_word_list(words, puzzle_letters):
 
 
 def combo_has_all_letters(word1, word2, puzzle_letters):
+    """
+    Check if the combined letters of word1 and word2 include all puzzle letters.
+    
+    Args:
+        word1 (str): The first word.
+        word2 (str): The second word.
+        puzzle_letters (str): The valid letters for the puzzle.
+
+    Returns:
+        bool: True if the combined words include all puzzle letters, False otherwise.
+    """
     combo = word1 + word2
     
     for letter in puzzle_letters:
@@ -50,11 +100,27 @@ def combo_has_all_letters(word1, word2, puzzle_letters):
     return True
 
 
-def last_and_first_letters_match(word1, word2):
+def words_connect(word1, word2):
+    """
+    Check if the last letter of word1 matches the first letter of word2.
+    
+    Args:
+        word1 (str): The first word.
+        word2 (str): The second word.
+
+    Returns:
+        bool: True if the last letter of word1 matches the first letter of word2, False otherwise.
+    """
     return word1[-1] == word2[0]
 
 
 def show_solutions(solutions):
+    """
+    Display the solutions found.
+    
+    Args:
+        solutions (list): A list of word pairs.
+    """
     if not solutions:
         print("No solutions found.")
     else:
@@ -64,6 +130,16 @@ def show_solutions(solutions):
 
 
 def data_is_valid(dictionary, puzzle_letters):
+    """
+    Validate the dictionary and puzzle letter constraints.
+    
+    Args:
+        dictionary (str): The dictionary file path.
+        puzzle_letters (str): The puzzle letters.
+
+    Returns:
+        bool: True if the data is valid, False otherwise.
+    """
     valid = True
     
     if not os.path.exists(dictionary):
@@ -78,7 +154,18 @@ def data_is_valid(dictionary, puzzle_letters):
 
     return valid
 
+
 def solve(dictionary, puzzle_letters):
+    """
+    Solve the Letter Boxes puzzle using the provided dictionary and puzzle letters.
+    
+    Args:
+        dictionary (str): The dictionary file path.
+        puzzle_letters (str): The puzzle letters.
+
+    Returns:
+        list: A list of word pairs that meet the puzzle constraints.
+    """
     if not data_is_valid(dictionary, puzzle_letters):
         return []
     
@@ -90,7 +177,7 @@ def solve(dictionary, puzzle_letters):
     
     for word1 in usable_words:
         for word2 in usable_words:
-            if not last_and_first_letters_match(word1, word2):
+            if not words_connect(word1, word2):
                 continue
 
             if combo_has_all_letters(word1, word2, puzzle_letters):
@@ -100,10 +187,13 @@ def solve(dictionary, puzzle_letters):
 
 
 def main():
-    dictionary = 'dictionary.txt'
-    puzzle_letters = 'xlbocuimqayt'
+    """
+    Main function to run the solver.
+    """
+    DICTIONARY = 'dictionary.txt'
+    PUZZLE_LETTERS = 'xlbocuimqayt'
 
-    solutions = solve(dictionary, puzzle_letters)
+    solutions = solve(DICTIONARY, PUZZLE_LETTERS)
     show_solutions(solutions)
 
 
