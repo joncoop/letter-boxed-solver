@@ -18,7 +18,7 @@ Every [New York Times Letter Boxed](https://www.nytimes.com/puzzles/letter-boxed
 
 2. **Run the solver**:
 
-    You can run the solver in two ways:
+    You can run the solver in three ways:
 
     - **From your IDE**: Simply open `python letter_boxed_solver.py` in your Python IDE and run the script.
 
